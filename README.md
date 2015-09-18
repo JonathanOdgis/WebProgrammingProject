@@ -21,6 +21,7 @@ The information for each row is the following.
     - Total Fat
     - Sugar
     - Total number of units consumed. 
+    - Time and Date of Consumption
 
 
 ##Drink Records Page
