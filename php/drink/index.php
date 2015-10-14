@@ -42,8 +42,8 @@ session_start();
                     <div class="navbar-header">
                       <a class="navbar-brand" href="index.html"> Fit List </a>
                     </div>          
-                    <li><a href="foodrecords.html">Food </a></li>
-                    <li><a href="drinkrecords.html"> Drink </a></li>
+                    <li><a href="/php/food/index.php">Food </a></li>
+                    <li><a href="/php/drink/index.php"> Drink </a></li>
                     <li><a href="exerciserecords.html"> Exercise </a></li>
                     <li><a href="weightrecords.html"> Weight </a></li>
                     <li><a href="sleeprecords.html"> Sleep </a></li>

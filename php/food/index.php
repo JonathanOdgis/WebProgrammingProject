@@ -43,8 +43,8 @@ session_start();
                     <div class="navbar-header">
                       <a class="navbar-brand" href="index.html"> Fit List </a>
                     </div>          
-                    <li><a href="foodrecords.html">Food </a></li>
-                    <li><a href="drinkrecords.html"> Drink </a></li>
+                    <li><a href="/php/food/index.php">Food </a></li>
+                    <li><a href="/php/drink/index.php"> Drink </a></li>
                     <li><a href="exerciserecords.html"> Exercise </a></li>
                     <li><a href="weightrecords.html"> Weight </a></li>
                     <li><a href="sleeprecords.html"> Sleep </a></li>
@@ -116,7 +116,7 @@ session_start();
         <div class = "footer">
           <div class = "Jumbotron">
             <p> Copyright 2015.  </p>
-             <a href = "https://twitter.com/ClubSeltzer"><img src = "http://www.iid.com/Home/ShowImage?id=299&t=635648001335730000" style = "width: 30px"></a>             
+             <a href = "#"><img src = "http://www.iid.com/Home/ShowImage?id=299&t=635648001335730000" style = "width: 30px"></a>             
              <a href = "#"><img src = "https://www.hrc.co.nz/index.php/download_file/view_inline/893/" style = "width: 30px"></a>
              <a href = "#"><img src = "http://a4.mzstatic.com/us/r30/Purple69/v4/14/79/45/147945c1-8234-f71b-2018-9c22475473f2/icon320x320.jpeg" style = "width: 30px"></a>
           </div>
