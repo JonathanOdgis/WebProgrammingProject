@@ -3,7 +3,7 @@ var mysql = require("mysql");
 module.exports =  {
     get: function(id, ret){
         var conn = GetConnection();
-        var sql = 'SELECT * FROM Persons ';
+        var sql = 'SELECT * FROM Foods';
         if(id){
           sql += " WHERE id = " + id;
         }
@@ -15,7 +15,7 @@ module.exports =  {
     },
     delete: function(id, ret){
         var conn = GetConnection();
-        conn.query('SELECT * FROM Persons',function(err,rows){
+        conn.query('SELECT * FROM Foods',function(err,rows){
           if(err) throw err;
           ret(rows);
           conn.end();
@@ -23,7 +23,7 @@ module.exports =  {
     },
     save: function(row, ret){
         var conn = GetConnection();
-        conn.query('SELECT * FROM Persons',function(err,rows){
+        conn.query('SELECT * FROM Foods',function(err,rows){
           if(err) throw err;
           ret(rows);
           conn.end();

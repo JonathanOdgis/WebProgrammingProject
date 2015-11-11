@@ -1,128 +1,77 @@
 <?php
-session_start();
-    $name = 'Jonathan Odgis';
-    $message = "Welcome $name";
-    
-    $person = array( 'Name' => $name, 'Age' => 21, CalorieGoal => 2000 );
-
-    $food = $_SESSION['food']; 
-    if(!$food){    
-      $_SESSION['food'] = $food = array(      
-        array( 'Name' => 'Breakfast', 'Calories' => 400, 'TotalFat' => 6, 'Sugar' => 22, 'Servings' => 1,'Time' => strtotime("-1 hour")),
-        array( 'Name' => 'Breakfast', 'Calories' => 400, 'TotalFat' => 6, 'Sugar' => 22, 'Servings' => 1,'Time' => strtotime("-1 hour")),
-        array( 'Name' => 'Breakfast', 'Calories' => 400, 'TotalFat' => 6, 'Sugar' => 22, 'Servings' => 1,'Time' => strtotime("-1 hour")),
-        array( 'Name' => 'Breakfast', 'Calories' => 400, 'TotalFat' => 6, 'Sugar' => 22, 'Servings' => 1,'Time' => strtotime("-1 hour")),
-        );
-    }
-        
-    $total = 0;
-    foreach ($food as $meal) {
-        $total += $meal['Calories'];
-    }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title> Fit List </title>
-
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-        <!-- Latest compiled and minified JavaScript -->
-        <link rel="stylesheet" href="main.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    </head>
-    
-    <body>
-        <div id = "header">
-            <nav class="navbar navbar-fixed navbar-default" id = "navbar">
-              <div class="container-fluid">
-                <div id = "navbaritems">
-                  <ul class = "nav navbar-nav">
-                    <div class="navbar-header">
-                      <a class="navbar-brand" href="index.html"> Fit List </a>
-                    </div>          
-                    <li><a href="/php/food/index.php">Food </a></li>
-                    <li><a href="/php/drink/index.php"> Drink </a></li>
-                    <li><a href="exerciserecords.html"> Exercise </a></li>
-                    <li><a href="weightrecords.html"> Weight </a></li>
-                    <li><a href="sleeprecords.html"> Sleep </a></li>
-                    <li><a href="bloodpressurerecords.html"> Blood Pressure </a></li>
-                    <li><a href="medicinerecords.html"> Medicine </a></li>
-                    <li><a href = "#"><img src = "http://www.iid.com/Home/ShowImage?id=299&t=635648001335730000" style = "width: 30px"></a></li>            
-                    <li><a href = "#"><img src = "https://www.hrc.co.nz/index.php/download_file/view_inline/893/" style = "width: 30px"></a></li>
-                    <li><a href = "#"><img src = "http://a4.mzstatic.com/us/r30/Purple69/v4/14/79/45/147945c1-8234-f71b-2018-9c22475473f2/icon320x320.jpeg" style = "width: 30px"></a></li>                  
-                </div>0
-              </div>
-            </nav>
-        </div>
-    
-        <div class="container">
-          <div class="jumbotron" id = "frontPageInfo">
-            <h1> My Food Records </h1> 
-            <div class = "panel panel-success">
-              <p> Name: <?=$person['Name']?></p>
-              <p> Age: <?=$person['Age']?></p>
-              <p> Calorie Goal: <?=$person['CalorieGoal']?></p>
-              <p> Calorie Intake Today: <?=$total?></p>
-              <p> </p>
-            </div>
-      
-            <a href="edit.php?>" class="btn btn-success">
+            <a href="?action=create" class="btn btn-success ajax">
                 <i class="glyphicon glyphicon-plus"></i>
-                Add
+                New Record
             </a>
-            <a href="#" class="btn btn-danger">
+            <a href="?action=delete" class="btn btn-danger">
                 <i class="glyphicon glyphicon-trash"></i>
-                Delete
+                Delete All
+                <span class="badge"><?=count($model)?></span>
             </a>
-            <table class="table table-condensed table-striped table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th>Total Fat</th>
-                  <th>Calories</th>
-                  <th>Sugar</th>
-                  <th>Servings</th>
-                  <th>Time</th>                  
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach($food as $i => $meal): ?>
-                <tr>
-                  <th scope="row"> <a href="delete.php?id=<?=$i?>" title="Delete" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-remove"></i></a><?=$i?></th>
-                  <td><?=$meal['Name']?></td>
-                  <td><?=$meal['TotalFat']?>g</td>
-                  <td><?=$meal['Calories']?></td>
-                  <td><?=$meal['Sugar']?>g</td>
-                  <td><?=$meal['Servings']?></td>
-                  <td><?=$meal['Time']?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-          </table>
-    </div>
+            <br />
 
-      <script>
-        $('#alert').hide();
-        $('#myModal').on('show.bs.modal', function () 
-        {
-          $('#alert').show();
-        })      
-      </script>
 
-        <div class = "footer">
-          <div class = "Jumbotron">
-            <p> Copyright 2015.  </p>
-             <a href = "#"><img src = "http://www.iid.com/Home/ShowImage?id=299&t=635648001335730000" style = "width: 30px"></a>             
-             <a href = "#"><img src = "https://www.hrc.co.nz/index.php/download_file/view_inline/893/" style = "width: 30px"></a>
-             <a href = "#"><img src = "http://a4.mzstatic.com/us/r30/Purple69/v4/14/79/45/147945c1-8234-f71b-2018-9c22475473f2/icon320x320.jpeg" style = "width: 30px"></a>
-          </div>
-        </div>
+<div class="modal fade" id="myDialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>        
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>    
-    </body> 
-</html>
+<p><?=count($model)?></p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Actions</th>
+            <th>Food Name</th>
+            <th>Calories</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($model as $row): ?>
+            <tr>
+                  <th scope="row">
+                    <div class="btn-group" role="group" aria-label="...">
+                      <a href="" title="View" class="btn btn-default btn-xs ajax"><i class="glyphicon glyphicon-eye-open"></i></a>
+                      <a href="?action=edit&id=<?=$row['persons_id']?>" title="Edit" class="btn btn-default btn-xs edit"><i class="glyphicon glyphicon-edit"></i></a>
+                      <a href="?action=delete&id=<?=$row['persons_id']?>" title="Delete" class="btn btn-default btn-xs ajax"><i class="glyphicon glyphicon-trash"></i></a>
+                    </div>
+                  </th>
+                <td><?=$row['foodname']?></td>  <!--This matches the name column in ur persons-->
+                <td><?=$row['calories']?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var editTemplate = Handlebars.compile($("#edit-tpl").html());
+        $(".ajax").click(function(){
+            $.get(this.href + "&format=plain").then(function(data){
+                $("#myDialog .modal-content").html(data);
+                $("#myDialog").modal('show');
+            });
+            return false;
+        });
+        $(".edit").click(function(){
+            var $self = $(this);
+            $.getJSON(this.href + "&format=json").then(function(data){
+                var html = editTemplate(data);
+                var $tr = $self.closest("tr").after(html).hide()
+            });
+            return false;
+        });
+    });
+</script>
+<script type="text/template" id="edit-tpl" >
+    <tr>
+       <td><input type="text" name="Name" class="form-control" placeholder="Name" value="{{firstname}}" /></td>
+       <td>
+         <input type="submit" value="Submit" class="btn btn-primary"/>
+         <input type="hidden" name="id" value="{{persons_id}}" /> 
+       </td>
+    </tr>
+</script>

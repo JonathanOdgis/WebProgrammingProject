@@ -13,7 +13,8 @@ switch ($action . '_' . $method) {
 		break;
 	case 'save_POST':
 			$sub_action = empty($_REQUEST['id']) ? 'created' : 'updated';
-			$errors = Drink::Validate($_REQUEST);
+			$errors = false;
+			//$errors = Drink::Validate($_REQUEST);
 			if(!$errors){
 				$errors = Drink::Save($_REQUEST);
 			}

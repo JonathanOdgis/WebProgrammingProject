@@ -1,12 +1,12 @@
 <?php
 require_once '../inc/global.php';
 
-class Person {
+class Food {
     public static function Get($id = null){
         $sql = "SELECT * FROM Foods";
         
 		if($id){
-			$sql .= " WHERE id=$id ";
+			$sql .= " WHERE foods_id= $id ";
 			$ret = FetchAll($sql);
 			return $ret[0];
 		}else{
@@ -18,7 +18,7 @@ class Person {
     static public function Delete($id)
 	{
 		$conn = GetConnection();
-		$sql = "DELETE FROM 2015Fall_Persons WHERE id = $id";
+		$sql = "DELETE FROM Foods WHERE food_id = $id";
 		//echo $sql;
 		$results = $conn->query($sql);
 		$error = $conn->error;
@@ -34,33 +34,26 @@ class Person {
 
 
 
-	static public function Validate($row)
-	{
-		$errors = array();
-		if(empty($row['Name'])) $errors['Name'] = "is required";
-		if(strtotime($row['Birthday']) > time()) $errors['Birthday'] = "must be in the past";
-			
-		return count($errors) > 0 ? $errors : false ;
-	}
-	
-	static public function Save(&$row)
-	{
-		$conn = GetConnection();
-			
-		$row2 = escape_all($row, $conn);
-		$row2['Birthday'] = date( 'Y-m-d H:i:s', strtotime( $row2['Birthday'] ) );
-		if (!empty($row['id'])) {
-			$sql = "Update 2015Fall_Persons
-					Set Name='$row2[Name]', Birthday='$row2[Birthday]'
-					WHERE id = $row2[id]
-					";
-		}
-		else
+		static public function Validate($row)
 		{
-			$sql = "INSERT INTO 2015Fall_Persons
-					(Name, Birthday, created_at)
-					VALUES ('$row2[Name]', '$row2[Birthday]', Now() ) ";				
+			$errors = array();
+			if(empty($row['firstname'])) $errors['firstname'] = "is required";
+			//if(strtotime($row['Birthday']) > time()) $errors['Birthday'] = "must be in the past";
+			
+			return count($errors) > 0 ? $errors : false ;
 		}
+	
+		static public function Save(&$row)
+		{
+			$conn = GetConnection();
+			
+			$row2 = escape_all($row, $conn);
+			$row2['Birthday'] = date( 'Y-m-d H:i:s', strtotime( $row2['Birthday'] ) );
+			if (!empty($row['foods_id'])) {
+				$sql = "Update Foods Set firstname='$row2[firstname]', Birthday='$row2[Birthday]' WHERE foods_id = $row2[foods_id]";
+			}else{
+				$sql = "INSERT INTO Foods(firstname, Birthday, created_at) VALUES ('$row2[firstname]', '$row2[Birthday]', Now() ) ";				
+			}
 			
 			
 			//my_print( $sql );
@@ -79,5 +72,8 @@ class Person {
 
 
 }
+
+
+
 
 

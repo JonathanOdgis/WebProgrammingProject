@@ -13,10 +13,10 @@ switch ($action . '_' . $method) {
 		break;
 	case 'save_POST':
 			$sub_action = empty($_REQUEST['id']) ? 'created' : 'updated';
-			$errors = Person::Validate($_REQUEST);
-			if(!$errors){
+			//$errors = Person::Validate($_REQUEST);
+			//if(!$errors){
 				$errors = Person::Save($_REQUEST);
-			}
+			//}
 			
 			if(!$errors){
 				if($format == 'json'){

@@ -4,7 +4,7 @@
                 <i class="glyphicon glyphicon-plus"></i>
                 New Record
             </a>
-            <a href="#" class="btn btn-danger">
+            <a href="?action=delete" class="btn btn-danger">
                 <i class="glyphicon glyphicon-trash"></i>
                 Delete All
                 <span class="badge"><?=count($model)?></span>
@@ -19,13 +19,12 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<p><?=count($model)?></p>
-
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Actions</th>
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
         </tr>
     </thead>
     <tbody>
@@ -39,6 +38,7 @@
                     </div>
                   </th>
                 <td><?=$row['firstname']?></td>  <!--This matches the name column in ur persons-->
+                <td><?=$row['lastname']?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
