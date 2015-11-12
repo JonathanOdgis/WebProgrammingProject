@@ -1,4 +1,4 @@
-var http = require('http');
+var http = require('http');    //This is CommonJS. There are three patterns CommonJS, requireJS (also known as APM), ExmaScript6 system)
 
 
 http.createServer(function (req, res) {
