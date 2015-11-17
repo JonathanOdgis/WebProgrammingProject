@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Records</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.min.js"></script>
+      
+    <div class = "container">
+        <div id = "header">
+            <nav class="navbar navbar-fixed navbar-default" id = "navbar">
+              <div class="container-fluid">
+                <div id = "navbaritems">
+                  <ul class = "nav navbar-nav">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="index.html"> Fit List </a>
+                    </div>          
+                    <li><a href="#" id = "person-button">Person </a></li>
+                    <li><a href="#" id = "food-button">Food </a></li>
+                    <li><a href="#" id = "drink-button"> Drink </a></li>
+                    <li><a href="#" id = "exercise-button"> Exercise </a></li>
+                    <li><a href="#" id = "weight-button"> Weight </a></li>
+                    <li><a href="#" id = "sleep-button"> Sleep </a></li>
+                    <li><a href="#" id = "blood-pressure-button"> Blood Pressure </a></li>
+                    <li><a href="#"> Medicine </a></li>
+                    <li><a href = "#"><img src = "http://www.iid.com/Home/ShowImage?id=299&t=635648001335730000" style = "width: 30px"></a></li>            
+                    <li><a href = "#"><img src = "https://www.hrc.co.nz/index.php/download_file/view_inline/893/" style = "width: 30px"></a></li>
+                    <li><a href = "#"><img src = "http://a4.mzstatic.com/us/r30/Purple69/v4/14/79/45/147945c1-8234-f71b-2018-9c22475473f2/icon320x320.jpeg" style = "width: 30px"></a></li>                  
+                </div>
+              </div>
+            </nav>
+        </div>      
+            <div id="view" ></div>
+    </div>
+    
+    <script type="text/javascript">
+        $(function(){
+           //var personDeleteTemplate = Handlebars.compile($("#person-delete-tmpl"))
+            var personEditTemplate = Handlebars.compile($("#person-edit-tmpl").html());
+            var personIndexTemplate = Handlebars.compile($("#person-index-tmpl").html());
+            
+            //var foodDeleteTemplate = Handlebars.compile($("#food-delete-tmpl").html());
+            var foodEditTemplate = Handlebars.compile($("#food-edit-tmpl").html());
+            var foodIndexTemplate = Handlebars.compile($("#food-index-tmpl").html());
+            
+            //var drinkDeleteTemplate = Handlebars.compile($("#drink-delete-tmpl").html());
+            var drinkEditTemplate = Handlebars.compile($("#drink-edit-tmpl").html());
+            var drinkIndexTemplate = Handlebars.compile($("#drink-index-tmpl").html());
+
+            //var exerciseDeleteTemplate = Handlebars.compile($("#exercise-delete-tmpl").html());
+            //var exerciseEditTemplate = Handlebars.compile($("#exercise-edit-tmpl").html());
+            //var exerciseIndexTemplate = Handlebars.compile($("#exercise-index-tmpl").html());
+
+            
+            //var sleepDeleteTemplate = Handlebars.compile($("#sleep-delete-tmpl").html());
+            //var sleepEditTemplate = Handlebars.compile($("#sleep-edit-tmpl").html());
+            //var sleepIndexTemplate = Handlebars.compile($("#sleep-index-tmpl").html());
+            
+            //var bloodPressureDeleteTemplate = Handlebars.compile($("#bloodPressure-delete-tmpl").html());
+            //var bloodPressureEditTemplate = Handlebars.compile($("#bloodPressure-edit-tmpl").html());
+            //var bloodPressureIndexTemplate = Handlebars.compile($("#bloodPressure-index-tmpl").html());
+            
+            //var weightDeleteTemplate = Handlebars.compile($("#weight-delete-tmpl").html());
+            //var weightEditTemplate = Handlebars.compile($("#weight-edit-tmpl").html());
+            //var weightIndexTemplate = Handlebars.compile($("#weight-index-tmpl").html());
+            
+            //Start here method
+            $.getJSON("person").then(function(data){
+                var html = personIndexTemplate({rows: data});
+                $("#view").html(html);
+            });
+            
+            //Event if the person button is clicked
+            $("#person-button").on("click", function(){  
+                $.getJSON("person").then(function(data){
+                var html = personIndexTemplate({rows: data});  //The way to change the page based on the click on the nav bar item id = food button
+                $("#view").html(html);
+            });                
+            })
+
+            //Event if the food button is clicked
+            $("#food-button").on("click", function(){  
+                $.getJSON("food").then(function(data){
+                var html = foodIndexTemplate({rows: data});  //The way to change the page based on the click on the nav bar item id = food button
+                $("#view").html(html);
+            });                
+            })
+
+            //Event if the drink button is clicked
+            $("#drink-button").on("click", function(){  
+                $.getJSON("drink").then(function(data){
+                var html = drinkIndexTemplate({rows: data});  //The way to change the page based on the click on the nav bar item id = food button
+                $("#view").html(html);
+            });                
+            })
+
+            //Event if the Exercise button is clicked
+            /*
+            $("#exercise-button").on("click", function(){  
+                $.getJSON("exercise").then(function(data){
+                var html = exerciseIndexTemplate({rows: data});  //The way to change the page based on the click on the nav bar item id = food button
+                $("#view").html(html);
+            });                
+            })
+            */
+    
+            //Event if the Sleep button is clicked
+            /*
+            $("#sleep-button").on("click", function(){  
+                $.getJSON("exercise").then(function(data){
+                var html = exerciseIndexTemplate({rows: data});  //The way to change the page based on the click on the nav bar item id = food button
+                $("#view").html(html);
+            });                
+            })
+            */
+            
+            //Event if the Blood Pressure button is clicked
+            /*
+            $("#blood-pressure-button").on("click", function(){  
+                $.getJSON("exercise").then(function(data){
+                var html = exerciseIndexTemplate({rows: data});  //The way to change the page based on the click on the nav bar item id = food button
+                $("#view").html(html);
+            });                
+            })
+            */
+            
+            //Event if the Weight button is clicked
+            /*
+            $("#weight-button").on("click", function(){  
+                $.getJSON("exercise").then(function(data){
+                var html = exerciseIndexTemplate({rows: data});  //The way to change the page based on the click on the nav bar item id = food button
+                $("#view").html(html);
+            });                
+            })
+            */            
+    
+            //Edit
+            $("#view").on("click", ".edit", function(){
+                var $self = $(this);
+                $.getJSON(this.href).then(function(data){
+                    var html = personEditTemplate(data);
+                    var $tr = $self.closest("tr").after(html).hide()
+                });
+                return false;
+            });
+             
+             
+            //View/Delete Ajax
+            $("#view").on("click", ".ajax", function(){
+                $.get(this.href + "&format=plain").then(function(data){
+                    $("#myDialog .modal-content").html(data);
+                    $("#myDialog").modal('show');
+                });
+                return false;
+            });
+
+
+            
+        });
+    </script>
+    
+    <!--PERSONS Template-->
+    <script type="text/template" id="person-index-tmpl">
+        <a href="?action=create" class="btn btn-success ajax">
+            <i class="glyphicon glyphicon-plus"></i>
+            New Record
+        </a>
+        <a href="#" class="btn btn-danger">
+            <i class="glyphicon glyphicon-trash"></i>
+            Delete All
+            <span class="badge">{{rows.length}}</span>
+        </a>
+        <br />
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Actions</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each rows}}
+                    <tr>
+                          <th scope="row">
+                            <div class="btn-group" role="group" aria-label="...">
+                              <a href="" title="View" class="btn btn-default btn-xs ajax"><i class="glyphicon glyphicon-eye-open"></i></a>
+                              <a href="/person/{{persons_id}}" title="Edit" class="btn btn-default btn-xs edit"><i class="glyphicon glyphicon-edit"></i></a>
+                              <a href="?action=delete&id={{persons_id}}" title="Delete" class="btn btn-default btn-xs ajax"><i class="glyphicon glyphicon-trash"></i></a>
+                            </div>
+                          </th>
+                        <td>{{firstname}}</td>
+                        <td>{{lastname}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </script>
+    
+    <script type="text/template" id="person-edit-tmpl" >
+    <tr>
+       <td><input type="text" name="First Name" class="form-control" placeholder="{{firstname}}" value="{{firstname}}" /></td>
+       <td><input type="text" name="Last Name" class="form-control" placeholder="{{lastname}}" value="{{lastname}}" /></td>
+       <td>
+         <input type="submit" value="Submit" class="btn btn-primary"/>
+         <input type="hidden" name="id" value="{{persons_id}}" /> 
+       </td>
+    </tr>
+    </script>
+    
+    <!--FOODS Template-->
+    <script type="text/template" id="food-index-tmpl">
+        <a href="?action=create" class="btn btn-success ajax">
+            <i class="glyphicon glyphicon-plus"></i>
+            New Record
+        </a>
+        <a href="#" class="btn btn-danger">
+            <i class="glyphicon glyphicon-trash"></i>
+            Delete All
+            <span class="badge">{{rows.length}}</span>
+        </a>
+        <br />
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Actions</th>
+                    <th>Food Name</th>
+                    <th>Calories</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each rows}}
+                    <tr>
+                          <th scope="row">
+                            <div class="btn-group" role="group" aria-label="...">
+                              <a href="" title="View" class="btn btn-default btn-xs ajax"><i class="glyphicon glyphicon-eye-open"></i></a>
+                              <a href="/food/{{foods_id}}" title="Edit" class="btn btn-default btn-xs edit"><i class="glyphicon glyphicon-edit"></i></a>
+                              <a href="?action=delete&id={{foods_id}}" title="Delete" class="btn btn-default btn-xs ajax"><i class="glyphicon glyphicon-trash"></i></a>
+                            </div>
+                          </th>
+                        <td>{{foodname}}</td>
+                        <td>{{calories}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </script>    
+
+    <script type="text/template" id="food-edit-tmpl" >
+    <tr>
+       <td><input type="text" name="Food Name" class="form-control" placeholder="{{Food Name}}" value="{{foodname}}" /></td>
+       <td><input type="text" name="Calories" class="form-control" placeholder="{{Calories}}" value="{{calories}}" /></td>
+       <td>
+         <input type="submit" value="Submit" class="btn btn-primary"/>
+         <input type="hidden" name="id" value="{{foods_id}}" /> 
+       </td>
+    </tr>
+    </script>
+
+
+
+    <!--Drink Template-->
+    <script type="text/template" id="drink-index-tmpl">
+        <a href="?action=create" class="btn btn-success ajax">
+            <i class="glyphicon glyphicon-plus"></i>
+            New Record
+        </a>
+        <a href="#" class="btn btn-danger">
+            <i class="glyphicon glyphicon-trash"></i>
+            Delete All
+            <span class="badge">{{rows.length}}</span>
+        </a>
+        <br />
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Actions</th>
+                    <th>Drink Name</th>
+                    <th>Calories</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each rows}}
+                    <tr>
+                          <th scope="row">
+                            <div class="btn-group" role="group" aria-label="...">
+                              <a href="" title="View" class="btn btn-default btn-xs ajax"><i class="glyphicon glyphicon-eye-open"></i></a>
+                              <a href="/drink/{{drinks_id}}" title="Edit" class="btn btn-default btn-xs edit"><i class="glyphicon glyphicon-edit"></i></a>
+                              <a href="?action=delete&id={{drinks_id}}" title="Delete" class="btn btn-default btn-xs ajax"><i class="glyphicon glyphicon-trash"></i></a>
+                            </div>
+                          </th>
+                        <td>{{drinkname}}</td>
+                        <td>{{drinkcalories}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </script>    
+
+    <script type="text/template" id="drink-edit-tmpl" >
+    <tr>
+       <td><input type="text" name="Drink Name" class="form-control" placeholder="{{drinkname}}" value="{{Name}}" /></td>
+       <td><input type="text" name="Calories" class="form-control" placeholder="Calories" value="{{Calories}}" /></td>
+       <td>
+         <input type="submit" value="Submit" class="btn btn-primary"/>
+         <input type="hidden" name="id" value="{{drinks_id}}" /> 
+       </td>
+    </tr>
+    </script>
+
+    
+  </body>
+</html>

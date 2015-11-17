@@ -3,9 +3,9 @@ var mysql = require("mysql");
 module.exports =  {
     get: function(id, ret){
         var conn = GetConnection();
-        var sql = 'SELECT * FROM Drinks ';
+        var sql = 'SELECT * FROM Drinks';
         if(id){
-          sql += " WHERE id = " + id;
+          sql += " WHERE drinks_id = " + id;
         }
         conn.query(sql, function(err,rows){
           if(err) throw err;

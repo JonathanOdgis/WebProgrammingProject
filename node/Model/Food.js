@@ -5,7 +5,7 @@ module.exports =  {
         var conn = GetConnection();
         var sql = 'SELECT * FROM Foods';
         if(id){
-          sql += " WHERE id = " + id;
+          sql += " WHERE foods_id = " + id;
         }
         conn.query(sql, function(err,rows){
           if(err) throw err;

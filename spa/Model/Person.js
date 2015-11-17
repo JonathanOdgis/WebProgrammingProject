@@ -5,7 +5,7 @@ module.exports =  {
         var conn = GetConnection();
         var sql = 'SELECT * FROM Persons ';
         if(id){
-          sql += " WHERE id = " + id;
+          sql += " WHERE person_id = " + id;
         }
         conn.query(sql, function(err,rows){
           if(err) throw err;
@@ -32,7 +32,7 @@ module.exports =  {
     validate: function(row){
       var errors = {};
       
-      if(!row.Name) errors.Name = "is required"; 
+      if(!row.firstname) errors.Name = "is required"; 
       
       return errors.length ? errors : false;
     }
