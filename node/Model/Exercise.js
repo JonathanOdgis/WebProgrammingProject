@@ -1,12 +1,11 @@
 var mysql = require("mysql");
 
 module.exports =  {
-    get: function(id, ret) {
+    get: function(id, ret){
         var conn = GetConnection();
-        var sql = 'SELECT * FROM Persons ';
-        if(id)
-        {
-          sql += " WHERE persons_id = " + id;
+        var sql = 'SELECT * FROM Exercise';
+        if(id){
+          sql += " WHERE exercise_id = " + id;
         }
         conn.query(sql, function(err,rows){
           if(err) throw err;
@@ -16,7 +15,7 @@ module.exports =  {
     },
     delete: function(id, ret){
         var conn = GetConnection();
-        conn.query("DELETE FROM Persons WHERE persons_id = " + id, function(err,rows){
+        conn.query("DELETE FROM Exercise WHERE exercise_id = " + id, function(err,rows){
           ret(err);
           conn.end();
         });        
@@ -24,7 +23,7 @@ module.exports =  {
     
     save: function(row, ret){
         var conn = GetConnection();
-        conn.query('SELECT * FROM Persons',function(err,rows){
+        conn.query('SELECT * FROM Exercise',function(err,rows){
           if(err) throw err;
           ret(rows);
           conn.end();
@@ -37,14 +36,14 @@ module.exports =  {
       
       return errors.length ? errors : false;
     }
-    };  
+};  
 
-    function GetConnection(){
-            var conn = mysql.createConnection({
-              host: "localhost",
-              user: "jonathan",
-              password: "itsobvious",
-              database: "c9"
-            });
-        return conn;
-    }
+function GetConnection(){
+        var conn = mysql.createConnection({
+          host: "localhost",
+          user: "jonathan",
+          password: "itsobvious",
+          database: "c9"
+        });
+    return conn;
+}
