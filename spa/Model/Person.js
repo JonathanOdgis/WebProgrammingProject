@@ -1,49 +1,54 @@
 var mysql = require("mysql");
 
 module.exports =  {
+    blank: function(){ return {} },
     get: function(id, ret){
         var conn = GetConnection();
-        var sql = 'SELECT * FROM Persons ';
+        var sql = 'SELECT * FROM Persons';
         if(id){
-          sql += " WHERE person_id = " + id;
+          sql += " WHERE persons_id = " + id;
         }
         conn.query(sql, function(err,rows){
-          if(err) throw err;
-          ret(rows);
+          ret(err,rows);
           conn.end();
         });        
     },
     delete: function(id, ret){
         var conn = GetConnection();
-        conn.query('SELECT * FROM Persons',function(err,rows){
-          if(err) throw err;
-          ret(rows);
+        conn.query("DELETE FROM Persons WHERE persons_id = " + id, function(err,rows){
+          ret(err);
           conn.end();
         });        
     },
     save: function(row, ret){
+        var sql;
         var conn = GetConnection();
-        conn.query('SELECT * FROM Persons',function(err,rows){
-          if(err) throw err;
-          ret(rows);
-          conn.end();
-        });        
+        //  TODO Sanitize
+        if (row.id) {
+				  sql = " Update Persons "
+							+ " Set firstname=?, lastname=? "
+						  + " WHERE persons_id = ? ";
+			  }else{
+				  sql = "INSERT INTO Persons "
+						  + " (firstname, lastname, created_at, TypeId) "
+						  + "VALUES (?, ?, Now(), 6 ) ";				
+			  }
     },
     validate: function(row){
       var errors = {};
       
-      if(!row.firstname) errors.Name = "is required"; 
+      if(!row.Name) errors.Name = "is required"; 
       
       return errors.length ? errors : false;
     }
 };  
 
-function GetConnection(){
-        var conn = mysql.createConnection({
-          host: "localhost",
-          user: "jonathan",
-          password: "itsobvious",
-          database: "c9"
-        });
-    return conn;
-}
+    function GetConnection(){
+            var conn = mysql.createConnection({
+              host: "localhost",
+              user: "jonathan",
+              password: "itsobvious",
+              database: "c9"
+            });
+        return conn;
+    }

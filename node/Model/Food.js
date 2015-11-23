@@ -21,9 +21,17 @@ module.exports =  {
         });        
     },
     
-    save: function(row, ret){
+    save: function(row, ret){    //the row is the serialized stuff from the script. 
         var conn = GetConnection();
-        conn.query('SELECT * FROM Foods',function(err,rows){
+        if (row.id)
+        {
+          var sql = "UPDATE Foods Set foodname=?, calories=?, persons_id=? WHERE foods_id =?";
+        }
+        else
+        {
+				  var sql = "INSERT INTO Foods(foodname, calories, persons_id) VALUES (?, ?, ?)";	
+        }
+        conn.query(sql, [row.foodName, row.calories, row.persons_id, row.id],function(err,rows){
           if(err) throw err;
           ret(rows);
           conn.end();

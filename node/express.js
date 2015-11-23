@@ -1,10 +1,14 @@
 var express = require('express'),
     app = express(),
+    bodyParser = require('body-parser'),    
     person = require("./Model/Person.js"),
     food = require("./Model/Food.js"),
     drink = require("./Model/Drink.js"),
     exercise = require("./Model/Exercise.js");
+    
 app.use(express.static(__dirname + '/public'));
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
 //==================================================================
 app.get("/person", function(req, res)
 {

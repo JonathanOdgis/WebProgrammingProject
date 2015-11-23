@@ -4,8 +4,7 @@ module.exports =  {
     get: function(id, ret) {
         var conn = GetConnection();
         var sql = 'SELECT * FROM Persons ';
-        if(id)
-        {
+        if(id){
           sql += " WHERE persons_id = " + id;
         }
         conn.query(sql, function(err,rows){
@@ -22,9 +21,17 @@ module.exports =  {
         });        
     },
     
-    save: function(row, ret){
+    save: function(row, ret){    //the row is the serialized stuff from the script. 
         var conn = GetConnection();
-        conn.query('SELECT * FROM Persons',function(err,rows){
+        if (row.id)
+        {
+          var sql = "UPDATE Persons Set firstname=?, lastname=? WHERE persons_id =?";
+        }
+        else
+        {
+				  var sql = "INSERT INTO Persons(firstname, lastname) VALUES (?, ?)";	
+        }
+        conn.query(sql, [row.firstName, row.lastName, row.id],function(err,rows){
           if(err) throw err;
           ret(rows);
           conn.end();

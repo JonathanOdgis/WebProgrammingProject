@@ -4,7 +4,8 @@
   "description": "",
   "main": "express.js",
   "dependencies": {
-    "express": "^4.13.3",
+  "body-parser": "^1.14.1",
+   "express": "^4.13.3",
     "mysql": "^2.9.0"
   },
   "devDependencies": {}
