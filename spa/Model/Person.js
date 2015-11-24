@@ -1,5 +1,5 @@
 var mysql = require("mysql");
-
+//model
 module.exports =  {
     blank: function(){ return {} },
     get: function(id, ret){
@@ -25,7 +25,7 @@ module.exports =  {
         var conn = GetConnection();
         //  TODO Sanitize
         if (row.id) {
-				  sql = " Update 2015Fall_Persons "
+				  sql = " Update Persons "
 							+ " Set firstname=?, lastname=? "
 						  + " WHERE persons_id=? ";
 			  }else{
@@ -34,7 +34,7 @@ module.exports =  {
 						  + "VALUES (?, ?, Now(), 6 ) ";				
 			  }
 
-        conn.query(sql, [row.Name, row.Birthday, row.id],function(err,data){
+        conn.query(sql, [row.firstName, row.lastName, row.id],function(err,data){
           if(!err && !row.id){
             row.id = data.insertId;
           }
