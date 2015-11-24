@@ -205,12 +205,12 @@
             //food add records
             $("#view").on("click", ".add-food", function(){
                 $("#myDialog .modal-title").html("Add a food");     //Ask for a person via a box and get the value of that person
-                var persons_id = 22;                   //$("#person_box").val();      //person reference
-                $("#myDialog .modal-body").html(foodEditTemplate({ persons_id: persons_id }));  //creating a json object
+                var persons_id = $("#persons_id").val();      //person reference
+                $("#myDialog .modal-body").html(foodEditTemplate({persons_id: persons_id }));  //creating a json object
                 $("#myDialog").modal('show');
                 $("#myDialog .modal-body .btn-primary").hide();
                 $("#myDialog .submit").one('click', function(){
-                    $.ajax({ url: 'food/', type: 'POST', data: $("#myDialog input").serialize() })
+                    $.ajax({ url: 'food/', type: 'POST', data: $("#myDialog input").serialize() })  //TODO: check the express and the food.js for the person_id being included. The data is being passed. it just needs to be processed right. 
                     .done(function(data){
                         location.reload();
                     }).fail(function(data){
@@ -267,7 +267,7 @@
                     var html = personEditTemplate(data);
                     var $tr = $self.closest("tr").after(html).hide()
                     $tr.next().find(".submit").one('click', function(){
-                        $.ajax({ url: '/person/', type: 'POST', data: $tr.next().find("input").serialize() })
+                        $.ajax({ url: 'person/', type: 'POST', data: $tr.next().find("input").serialize() })
                         .done(function(data){
                             location.reload();
                         }).fail(function(data){
@@ -352,7 +352,7 @@
                         }).fail(function(data){
                             alert(data.responseJSON.code);
                         });
-                        return false;
+                        return false; 
                     });
                     $("#myDialog").modal('show');
                 });
@@ -441,6 +441,7 @@
                     <th>Actions</th>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th>Persons id</th>
                 </tr>
             </thead>
             <tbody>
@@ -455,6 +456,7 @@
                           </th>
                         <td>{{firstname}}</td>
                         <td>{{lastname}}</td>
+                        <td>{{persons_id}}</td>
                     </tr>
                 {{/each}}
             </tbody>
@@ -466,9 +468,9 @@
 
        <td><input type="text" id = "firstName" name="firstName" class="form-control" placeholder="firstname" value="{{firstname}}" /></td>
        <td><input type="text" id = "lastName" name="lastName" class="form-control" placeholder="lastname" value="{{lastname}}" /></td>
+       <td><input type="text" name="persons_id" class="form-control" placeholder="persons_id" value="{{persons_id}}" /></td>
        <td>
-         <input type="submit" value="Submit" class="btn btn-primary"/>
-         <input type="hidden" name="id" value="{{persons_id}}" /> 
+         <input type="submit" value="Submit" class="btn btn-primary submit"/>
        </td>
     </tr>
     </script>
@@ -487,6 +489,8 @@
                     <th>Actions</th>
                     <th>Food Name</th>
                     <th>Calories</th>
+                    <th>Foods_id</th>
+                    <th>Persons_id</th>
                 </tr>
             </thead>
             <tbody>
@@ -501,6 +505,8 @@
                           </th>
                         <td>{{foodname}}</td>
                         <td>{{calories}}</td>
+                        <td>{{foods_id}}</td>
+                        <td>{{persons_id}}</td>
                     </tr>
                 {{/each}}
             </tbody>
@@ -511,10 +517,10 @@
     <tr>
        <td><input type="text" id = "foodName" name="foodName" class="form-control" placeholder="food" value="{{foodname}}" /></td>
        <td><input type="text" id = "calories" name="calories" class="form-control" placeholder="calories" value="{{calories}}" /></td>
+       <td><input type="text" id = "foods_id" name="foods_id" class="form-control" placeholder = "foods_id" value="{{foods_id}}" /> </td>     
+       <td><input type="text" id = "persons_id" name="persons_id" class="form-control" placeholder="persons_id" value="{{persons_id}}" /></td>
        <td>
          <input type="submit" value="Submit" class="btn btn-primary"/>
-         <input type="hidden" name="id" value="{{foods_id}}" />
-         <input type="hidden" name="persons_id" value="{{persons_id}}" />
        </td>
     </tr>
     </script>
@@ -559,9 +565,9 @@
     <tr>
        <td><input type="text" name="Drink Name" class="form-control" placeholder="drink" value="{{drinkname}}" /></td>
        <td><input type="text" name="Calories" class="form-control" placeholder="calories" value="{{drinkcalories}}" /></td>
+       <td><input type="text" id = "persons_id" name="persons_id" class="form-control" placeholder="persons_id" value="{{persons_id}}" /></td>
        <td>
          <input type="submit" value="Submit" class="btn btn-primary"/>
-         <input type="hidden" name="id" value="{{drinks_id}}" /> 
        </td>
     </tr>
     </script>

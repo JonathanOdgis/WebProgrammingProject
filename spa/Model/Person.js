@@ -4,7 +4,7 @@ module.exports =  {
     blank: function(){ return {} },
     get: function(id, ret){
         var conn = GetConnection();
-        var sql = 'SELECT * FROM Persons';
+        var sql = 'SELECT * FROM Persons ';
         if(id){
           sql += " WHERE persons_id = " + id;
         }
@@ -25,14 +25,22 @@ module.exports =  {
         var conn = GetConnection();
         //  TODO Sanitize
         if (row.id) {
-				  sql = " Update Persons "
+				  sql = " Update 2015Fall_Persons "
 							+ " Set firstname=?, lastname=? "
-						  + " WHERE persons_id = ? ";
+						  + " WHERE persons_id=? ";
 			  }else{
 				  sql = "INSERT INTO Persons "
 						  + " (firstname, lastname, created_at, TypeId) "
 						  + "VALUES (?, ?, Now(), 6 ) ";				
 			  }
+
+        conn.query(sql, [row.Name, row.Birthday, row.id],function(err,data){
+          if(!err && !row.id){
+            row.id = data.insertId;
+          }
+          ret(err, row);
+          conn.end();
+        });        
     },
     validate: function(row){
       var errors = {};

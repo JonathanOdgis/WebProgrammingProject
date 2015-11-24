@@ -25,13 +25,13 @@ module.exports =  {
         var conn = GetConnection();
         if (row.id)
         {
-          var sql = "UPDATE Persons Set firstname=?, lastname=? WHERE persons_id =?";
+          var sql = "UPDATE Persons Set firstname=?, lastname=?, persons_id=? WHERE persons_id =?";
         }
         else
         {
-				  var sql = "INSERT INTO Persons(firstname, lastname) VALUES (?, ?)";	
+				  var sql = "INSERT INTO Persons(firstname, lastname, persons_id) VALUES (?, ?, ?)";	
         }
-        conn.query(sql, [row.firstName, row.lastName, row.id],function(err,rows){
+        conn.query(sql, [row.firstName, row.lastName, row.persons_id],function(err,rows){
           if(err) throw err;
           ret(rows);
           conn.end();
