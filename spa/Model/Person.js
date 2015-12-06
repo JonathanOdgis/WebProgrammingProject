@@ -1,5 +1,5 @@
 var mysql = require("mysql");
-//model
+
 module.exports =  {
     blank: function(){ return {} },
     get: function(id, ret){
@@ -24,17 +24,19 @@ module.exports =  {
         var sql;
         var conn = GetConnection();
         //  TODO Sanitize
-        if (row.id) {
+        if (row.id) 
+        {
 				  sql = " Update Persons "
 							+ " Set firstname=?, lastname=? "
 						  + " WHERE persons_id=? ";
-			  }else{
+			  }else
+			  {
 				  sql = "INSERT INTO Persons "
-						  + " (firstname, lastname, created_at, TypeId) "
-						  + "VALUES (?, ?, Now(), 6 ) ";				
+						  + " (firstname, lastname, created_at) "  //persons id and the updated at should update themselves via phpmy admin
+						  + "VALUES (?, ?, now()) ";				
 			  }
 
-        conn.query(sql, [row.firstName, row.lastName, row.id],function(err,data){
+        conn.query(sql, [row.firstname, row.lastname, row.id],function(err,data){
           if(!err && !row.id){
             row.id = data.insertId;
           }

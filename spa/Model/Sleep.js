@@ -4,9 +4,9 @@ module.exports =  {
     blank: function(){ return {} },
     get: function(id, ret){
         var conn = GetConnection();
-        var sql = 'SELECT * FROM Exercise ';
+        var sql = 'SELECT * FROM Sleep ';
         if(id){
-          sql += " WHERE exercise_id = " + id;
+          sql += " WHERE sleep_id = " + id;
         }
         conn.query(sql, function(err,rows){
           ret(err,rows);
@@ -15,7 +15,7 @@ module.exports =  {
     },
     delete: function(id, ret){
         var conn = GetConnection();
-        conn.query("DELETE FROM Exercise WHERE exercise_id = " + id, function(err,rows){
+        conn.query("DELETE FROM Sleep WHERE sleep_id = " + id, function(err,rows){
           ret(err);
           conn.end();
         });        
@@ -25,16 +25,16 @@ module.exports =  {
         var conn = GetConnection();
         //  TODO Sanitize
         if (row.id) {
-				  sql = " Update Exercise "
-							+ " Set name=?, calories_burned=? persons_id=?"
-						  + " WHERE exercise_id = ? ";
+				  sql = " Update Sleep "
+							+ " Set sleep_hours=?, persons_id=?"
+						  + " WHERE sleep_id = ? ";
 			  }else{
-				  sql = "INSERT INTO Exercise "
-						  + " (name, calories_burned, created_at, persons_id) "
-						  + "VALUES (?, ?, Now()), ?";				
+				  sql = "INSERT INTO Sleep "
+						  + " (sleep_hours, created_at, persons_id) "
+						  + "VALUES (?, Now(), ?";				
 			  }
 
-        conn.query(sql, [row.name, row.calories_burned, row.id],function(err,data){
+        conn.query(sql, [row.sleep_hours, row.id],function(err,data){
           if(!err && !row.id){
             row.id = data.insertId;
           }

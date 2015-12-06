@@ -4,9 +4,9 @@ module.exports =  {
     blank: function(){ return {} },
     get: function(id, ret){
         var conn = GetConnection();
-        var sql = 'SELECT * FROM Exercise ';
+        var sql = 'SELECT * FROM BloodPressure ';
         if(id){
-          sql += " WHERE exercise_id = " + id;
+          sql += " WHERE blood_pressure_id = " + id;
         }
         conn.query(sql, function(err,rows){
           ret(err,rows);
@@ -15,7 +15,7 @@ module.exports =  {
     },
     delete: function(id, ret){
         var conn = GetConnection();
-        conn.query("DELETE FROM Exercise WHERE exercise_id = " + id, function(err,rows){
+        conn.query("DELETE FROM BloodPressure WHERE blood_pressure_id = " + id, function(err,rows){
           ret(err);
           conn.end();
         });        
@@ -25,16 +25,16 @@ module.exports =  {
         var conn = GetConnection();
         //  TODO Sanitize
         if (row.id) {
-				  sql = " Update Exercise "
-							+ " Set name=?, calories_burned=? persons_id=?"
-						  + " WHERE exercise_id = ? ";
+				  sql = " Update BloodPressure "
+							+ " Set current_bloodpressure=?, persons_id=?"
+						  + " WHERE blood_pressure_id = ? ";
 			  }else{
-				  sql = "INSERT INTO Exercise "
-						  + " (name, calories_burned, created_at, persons_id) "
-						  + "VALUES (?, ?, Now()), ?";				
+				  sql = "INSERT INTO BloodPressure "
+						  + " (current_bloodpressure, created_at, persons_id) "
+						  + "VALUES (?, Now(), ?";				
 			  }
 
-        conn.query(sql, [row.name, row.calories_burned, row.id],function(err,data){
+        conn.query(sql, [row.current_bloodpressure, row.id],function(err,data){
           if(!err && !row.id){
             row.id = data.insertId;
           }

@@ -1,14 +1,18 @@
 angular.module('jonathan.directives')
-    .directive('mpPanel', function () {
+    .directive('joPanel', function () {
         return {
             restrict: 'EA', //E = element, A = attribute, C = class, M = comment         
-            scope: {
-                //@ reads the attribute value, = provides two-way binding, & works with functions
-                title: '=',         
-                body: '=',
-                confirm: '&'
+            controller: function(panel, $scope){
+                $scope.vm = panel;
             },
             templateUrl: 'directives/panel.html'
             //link: function ($scope, element, attrs) { } //DOM manipulation
         }
-    });
+    })
+    .service('panel', function(){
+        var self = this;
+        self.state = null;
+        self.show = function(state){
+            self.state = state;
+        }
+})

@@ -1,9 +1,9 @@
         angular.module('app')
-        .controller('exercise', function($http, alert, panel){
+        .controller('bloodpressure', function($http, alert, panel){
             var self = this;
 
-            self.template = "views/exercise-index.html";                 
-            $http.get("/exercise")
+            self.template = "views/blood-pressure-index.html";                 
+            $http.get("/bloodpressure")
             .success(function(data){
                 self.rows = data;
             });
@@ -15,7 +15,7 @@
                 row.isEditing = true;
             }
             self.save = function(row, index){
-                $http.post('/exercise/', row)
+                $http.post('/bloodpressure/', row)
                 .success(function(data){
                     data.isEditing = false;
                     self.rows[index] = data;
@@ -25,10 +25,10 @@
             }
             self.delete = function(row, index){
                 panel.show( {
-                    title: "Delete a exercise",
-                    body: "Are you sure you want to delete " + row.name + "?",
+                    title: "Delete a blood pressure",
+                    body: "Are you sure you want to delete " + row.current_bloodpressure + "?",
                     confirm: function(){
-                        $http.delete('/exercise/' + row.exercise_id)
+                        $http.delete('/bloodpressure/' + row.blood_pressure_id)
                         .success(function(data){
                             self.rows.splice(index, 1);
                         }).error(function(data){

@@ -1,5 +1,5 @@
 var mysql = require("mysql");
-
+var userID = 800; //fix make it greater each time run //change the value each time to get a different user in terms of testing but we should be able to have more than 1 food per user. 
 module.exports =  {
     blank: function(){ return {} },
     get: function(id, ret){
@@ -20,23 +20,26 @@ module.exports =  {
           conn.end();
         });        
     },
-    save: function(row, ret){
+    save: function(row, ret){    //bug            //rows is not defined
         var sql;
         var conn = GetConnection();
         //  TODO Sanitize
-        if (row.id) {
+        if (row.id) 
+        {
 				  sql = " Update Foods "
-							+ " Set firstname=?, lastname=? "
-						  + " WHERE foods_id = ? ";
-			  }else{
-				  sql = "INSERT INTO Foods "
-						  + " (firstname, lastname, created_at, TypeId) "
-						  + "VALUES (?, ?, Now(), 6 ) ";				
+							+ " Set 'foodname'=?, 'calories'=?, 'persons_id'=?"
+						  + " WHERE foods_id=? ";
+			  }
+			  else
+			  {
+				  sql = "INSERT INTO Foods " //error in my sql
+				      + " (foodname, calories, created_at, persons_id) "
+						  + "VALUES (?, ?, now(), ?)";	   //so this should be a user, dropdown with persons_ids		
 			  }
 
-        conn.query(sql, [row.firstname, row.lastname, row.foods_id],function(err,data){
-          if(!err && !row.Name){
-            row.Name = data.insertId;
+        conn.query(sql, [row.foodname, row.calories, userID, row.id],function(err,data){
+          if(!err && !row.id){
+            row.id = data.insertId;  //data.insertId is auto-increment in the food table
           }
           ret(err, row);
           conn.end();
@@ -50,13 +53,12 @@ module.exports =  {
       return errors.length ? errors : false;
     }
 };  
-
-function GetConnection(){
-        var conn = mysql.createConnection({
-          host: "localhost",
-          user: "blabla",
-          password: "1212",
-          database: "c9"
-        });
-    return conn;
-}
+    function GetConnection(){
+            var conn = mysql.createConnection({
+              host: "localhost",
+              user: "jonathan",
+              password: "itsobvious",
+              database: "c9"
+            });
+        return conn;
+    }

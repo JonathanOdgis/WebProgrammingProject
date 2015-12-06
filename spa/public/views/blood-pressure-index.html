@@ -1,4 +1,4 @@
-        <h3>Persons</h3>
+        <h3>Blood Pressure</h3>        
         <a class="btn btn-success" ng-click="vm.create()">
             <i class="glyphicon glyphicon-plus"></i>
             New Record
@@ -7,13 +7,12 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Actions</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>Actions</th>                    
+                    <th>Current Blood Pressure</th>
+                    <th>Date Created</th>
                 </tr>
             </thead>
             <tbody>
-                
                     <tr ng-repeat="row in vm.rows">
                           <th ng-if-start="!row.isEditing" scope="row">
                             <div class="btn-group" role="group" aria-label="...">
@@ -22,15 +21,16 @@
                               <a ng-click="vm.delete(row, $index)" title="Delete" class="btn btn-default btn-xs delete"><i class="glyphicon glyphicon-trash"></i></a>
                             </div>
                           </th>
-                        <td>{{row.firstname}}</td>
-                        <td ng-if-end>{{row.lastname}}</td>
+                        <!--Note that if we have the ng-if-end and the if start with the editing, you gotta follow the end and then start for displaying the inputs or it overlays!-->
+                        <td>{{row.current_bloodpressure}}</td> 
+                        <td ng-if-end>{{row.created_at}}</td>                        
+                        <td ng-if-start="row.isEditing"><input type="text" name="current_bloodpressure" class="form-control" placeholder="current blood pressure" ng-model="row.current_bloodpressure" /></td>
                         
-                        <td ng-if-start="row.isEditing"><input type="text" name="firstname" class="form-control" placeholder="firstname" ng-model="row.firstname" /></td>
-                        <td><input type="text" name="lastname" class="form-control" placeholder="lastname" ng-model="row.lastname" /></td>
                         <td ng-if-end>
-                            <input type="button" value="Submit" class="btn btn-primary submit" ng-click="vm.save(row, $index)"/>
+                            <input type="button" value="Submit" class="btn btn-primary btn-sm submit" ng-click="vm.save(row, $index)"/>
                         </td>
-                       
+                   
                        
                     </tr>
             </tbody>
+        </table>

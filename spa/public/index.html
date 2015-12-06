@@ -24,100 +24,125 @@
                     <div class="navbar-header">
                         <a class="navbar-brand" href="index.html"> Fit List </a>
                     </div>          
-                    <li><a href="#" id = "person-button">Person </a></li>
-                    <li><a href="#" id = "food-button">Food </a></li>
-                    <li><a href="#" id = "drink-button"> Drink </a></li>
-                    <li><a href="#" id = "exercise-button"> Exercise </a></li>
-                    <li><a href="#" id = "weight-button"> Weight </a></li>
-                    <li><a href="#" id = "sleep-button"> Sleep </a></li>
-                    <li><a href="#" id = "blood-pressure-button"> Blood Pressure </a></li>
-                    <li><a href="#"> Medicine </a></li>
-                    
-                    
+                    <li><a href="#/person" id = "person-button">Person </a></li>
+                    <li><a href="#/food" id = "food-button">Food </a></li>
+                    <li><a href="#/exercise" id = "exercise-button"> Exercise </a></li>
+                    <li><a href="#/weight" id = "weight-button"> Weight </a></li>
+                    <li><a href="#/sleep" id = "sleep-button"> Sleep </a></li>
+                    <li><a href="#/bloodpressure" id = "blood-pressure-button"> Blood Pressure </a></li>
 
                     <li><a href = "#"><img src = "http://www.iid.com/Home/ShowImage?id=299&t=635648001335730000" style = "width: 30px"></a></li>            
                     <li><a href = "#"><img src = "https://www.hrc.co.nz/index.php/download_file/view_inline/893/" style = "width: 30px"></a></li>
                     <li><a href = "#"><img src = "http://a4.mzstatic.com/us/r30/Purple69/v4/14/79/45/147945c1-8234-f71b-2018-9c22475473f2/icon320x320.jpeg" style = "width: 30px"></a></li>                  
+              <li ng-controller="user as user"><a href="#">
+                  <img ng-src="https://graph.facebook.com/{{user.fbUser.id}}/picture" />
+                  {{user.fbUser.name}}
+              </a></li>
+
+
+
                 </div>
               </div>
             </nav>
+           
         </div>    
 
-            <mp-alert></mp-alert><mp-panel></mp-panel>
+            <jo-alert></jo-alert>
+            <jo-panel></jo-panel>
             <div ng-view ></div>
         
     </div>
 
+    <script src="//connect.facebook.net/en_US/sdk.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-route.min.js"></script>
     <script type="text/javascript" src="directives/alert.js"></script>
     <script type="text/javascript" src="directives/panel.js"></script>
     <script type="text/javascript">
-        angular.module('app',['ngRoute', 'jonathan.directives'])
+        angular.module('app',['ngRoute', 'jonathan.directives'])   
         .config(function($routeProvider){
             $routeProvider.
               when('/person', {
                 templateUrl: 'views/person-index.html',
-                controller: 'person', controllerAs: 'vm'
-              }).
-              when('/person/:id', {
-                templateUrl: 'views/person-details.html',
-                controller: 'personDetails', controllerAs: 'vm'
+                controller: 'person', controllerAs: 'vm'   //self = vm
               }).
               when('/food', {
                 templateUrl: 'views/food-index.html',
                 controller: 'food', controllerAs: 'vm'
               }).
-              when('/food/:id', {
-                templateUrl: 'views/food-details.html',
-                controller: 'foodDetails', controllerAs: 'vm'
+              when('/food/new', {
+                templateUrl: 'views/food-new.html',
+                controller: 'foodNew', controllerAs: 'vm'
               }).
+              when('/exercise', {
+                templateUrl: 'views/exercise-index.html',
+                controller: 'exercise', controllerAs: 'vm'
+              }).
+              when('/exercise/:id', {
+                templateUrl: 'views/exercise-details.html',
+                controller: 'exerciseDetails', controllerAs: 'vm'
+              }).
+              when('/bloodpressure', {
+                templateUrl: 'views/blood-pressure-index.html',
+                controller: 'bloodpressure', controllerAs: 'vm'
+              }).
+              when('/sleep', {
+                templateUrl: 'views/sleep-index.html',
+                controller: 'sleep', controllerAs: 'vm'
+              }).              
+              when('/weight', {
+                templateUrl: 'views/weight-index.html',
+                controller: 'weight', controllerAs: 'vm'
+              }).              
               otherwise({
-                redirectTo: '/person'
-              });
+                redirectTo: '/person'   //person
+              })
         })
-        .controller('person', function($http, alert, panel){
+        .service('facebook',function($q, $http){
+            return {
+                getUser: function(){
+                    var deferred = $q.defer();   //an asyncronous object t
+                    
+                    FB.init({
+                        appId      : '933506733408904',
+                        cookie     : true,  
+                        xfbml      : true,  
+                        version    : 'v2.5' 
+                    });
+                    FB.getLoginStatus(function(response) {
+                        if(response.status === 'connected'){
+                                FB.api('/me', function(fbUser){
+                                  deferred.resolve(fbUser);     //means the object is ready 
+                                })
+                        }else{
+                            FB.login(function(response) {
+                                FB.api('/me', function(fbUser){
+                                  deferred.resolve(fbUser);
+                                })
+                                
+                            }, {scope: 'public_profile,email'});
+                        }
+                    });
+                    
+                    return deferred.promise;      //this means that it will eventually return something
+                }
+            }
+        })
+        .controller('user', function(facebook){
             var self = this;
-            
-            $http.get("/person")
-            .success(function(data){
-                self.rows = data;
+            facebook.getUser().then(function(fbUser){
+                self.fbUser = fbUser;
+                self.fbUser.name = self.fbUser.name;
+                self.fbUser.about = self.fbUser.about;
             });
-            
-            self.create = function(){
-                self.rows.push({ isEditing: true });
-            }
-            self.edit = function(row, index){
-                row.isEditing = true;
-            }
-            self.save = function(row, index){
-                $http.post('/person/', row)
-                .success(function(data){
-                    data.isEditing = false;
-                    self.rows[index] = data;
-                }).error(function(data){
-                    alert.show(data.code);
-                });
-            }
-            self.delete = function(row, index){
-                panel.show( {
-                    title: "Delete a person",
-                    body: "Are you sure you want to delete " + row.firstName + "?",
-                    confirm: function(){
-                        $http.delete('/person/' + row.persons_id)
-                        .success(function(data){
-                            self.rows.splice(index, 1);
-                        }).error(function(data){
-                            alert.show(data.code);
-                        });
-                    }
-                });
-            }
-            
+            self.status = "Not Checked Yet."
         });
-        
     </script>
-
-
+    <script type="text/javascript" src="controllers/person.js"></script>
+    <script type="text/javascript" src="controllers/food.js"></script>
+    <script type="text/javascript" src="controllers/exercise.js"></script>
+    <script type="text/javascript" src="controllers/bloodpressure.js"></script>
+    <script type="text/javascript" src="controllers/weight.js"></script>
+    <script type="text/javascript" src="controllers/sleep.js"></script>    
   </body>
 </html>

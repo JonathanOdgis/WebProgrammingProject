@@ -1,9 +1,9 @@
         angular.module('app')
-        .controller('food', function($http, personService, alert){
+        .controller('person', function($http, alert, panel){    //wait why can person not work but food works for the controller/model?hHhhhHhHh
             var self = this;
 
                 self.template = "views/person-index.html";
-                personService.get()
+                $http.get('/person')
                 .success(function(data){
                     self.rows = data;
                 });
@@ -15,7 +15,7 @@
                     row.isEditing = true;
                 }
                 self.save = function(row, index){
-                    personService.post(row)
+                    $http.post('/person', row)
                     .success(function(data){
                         data.isEditing = false;
                         self.rows[index] = data;
@@ -24,19 +24,17 @@
                     });
                 }
                 self.delete = function(row, index){
-                    self.panel = {
+                    panel.show( {
                         title: "Delete a person",
                         body: "Are you sure you want to delete " + row.firstName + "?",
                         confirm: function(){
-                            personService.delete(row.persons_id)
+                            $http.delete('/person/' + row.persons_id)
                             .success(function(data){
                                 self.rows.splice(index, 1);
-                                $("#myDialog").modal('hide');
                             }).error(function(data){
-                                alert.show( data.code );
+                                alert.show(data.code);
                             });
                         }
-                    }
-                    //$("#myDialog").modal('show');
+                    });
                 }
         });
