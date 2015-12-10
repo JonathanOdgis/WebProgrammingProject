@@ -20,21 +20,21 @@ module.exports =  {
           conn.end();
         });        
     },
-    save: function(row, ret){
+    save: function(row, persons_id, ret){
         var sql;
         var conn = GetConnection();
         //  TODO Sanitize
         if (row.id) {
-				  sql = " Update Sleep "
+				  sql = " Update Sleep S"
 							+ " Set sleep_hours=?, persons_id=?"
-						  + " WHERE sleep_id = ? ";
+						  + " WHERE S.sleep_id = ? ";
 			  }else{
 				  sql = "INSERT INTO Sleep "
 						  + " (sleep_hours, created_at, persons_id) "
-						  + "VALUES (?, Now(), ?";				
+						  + "VALUES (?, Now()," +	persons_id + ")";		
 			  }
 
-        conn.query(sql, [row.sleep_hours, row.id],function(err,data){
+        conn.query(sql, [row.sleep_hours, row.persons_id, row.id],function(err,data){
           if(!err && !row.id){
             row.id = data.insertId;
           }

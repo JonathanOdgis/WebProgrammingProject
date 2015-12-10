@@ -20,21 +20,21 @@ module.exports =  {
           conn.end();
         });        
     },
-    save: function(row, ret){
+    save: function(row, persons_id, ret){
         var sql;
         var conn = GetConnection();
         //  TODO Sanitize
         if (row.id) {
-				  sql = " Update BloodPressure "
+				  sql = " Update BloodPressure B"
 							+ " Set current_bloodpressure=?, persons_id=?"
-						  + " WHERE blood_pressure_id = ? ";
+						  + " WHERE B.blood_pressure_id = ? ";
 			  }else{
 				  sql = "INSERT INTO BloodPressure "
 						  + " (current_bloodpressure, created_at, persons_id) "
-						  + "VALUES (?, Now(), ?";				
+						  + "VALUES (?, Now(), " +	persons_id + ")";					
 			  }
 
-        conn.query(sql, [row.current_bloodpressure, row.id],function(err,data){
+        conn.query(sql, [row.current_bloodpressure, persons_id, row.id],function(err,data){
           if(!err && !row.id){
             row.id = data.insertId;
           }
