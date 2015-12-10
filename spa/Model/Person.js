@@ -2,11 +2,19 @@ var mysql = require("mysql");
 
 module.exports =  {
     blank: function(){ return {} },
-    get: function(id, ret){
+    get: function(id, ret, searchType){
         var conn = GetConnection();
-        var sql = 'SELECT * FROM Persons ';
+        var sql = 'SELECT P.* FROM Persons P';
         if(id){
-          sql += " WHERE persons_id = " + id;
+          switch (searchType) {
+            case 'facebook':
+              sql += " WHERE P.fbid = " + id;
+              break;
+            
+            default:
+              sql += " WHERE P.persons_id = " + id;
+          }
+          
         }
         conn.query(sql, function(err,rows){
           ret(err,rows);
@@ -26,17 +34,17 @@ module.exports =  {
         //  TODO Sanitize
         if (row.id) 
         {
-				  sql = " Update Persons "
+				  sql = " Update Persons P "                    // BUG FIX: Check for the P reference like above in the get
 							+ " Set firstname=?, lastname=? "
-						  + " WHERE persons_id=? ";
+						  + " WHERE P.persons_id=? ";
 			  }else
 			  {
-				  sql = "INSERT INTO Persons "
-						  + " (firstname, lastname, created_at) "  //persons id and the updated at should update themselves via phpmy admin
-						  + "VALUES (?, ?, now()) ";				
+				  sql = "INSERT INTO Persons "                      //Give Persons fbid a value and also include the typeid
+						  + " (firstname, lastname, created_at, fbid, typeid)"  //persons id and the updated at should update themselves via phpmy admin
+						  + "VALUES (?, ?, now(), ?, 'User')";			   // ok so 0 is the value for the fbid so i need to input peopels facebook ids	
 			  }
 
-        conn.query(sql, [row.firstname, row.lastname, row.id],function(err,data){
+        conn.query(sql, [row.firstname, row.lastname, row.fbid, row.typeid, row.id],function(err,data){
           if(!err && !row.id){
             row.id = data.insertId;
           }

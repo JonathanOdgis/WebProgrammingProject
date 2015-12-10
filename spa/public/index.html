@@ -34,10 +34,17 @@
                     <li><a href = "#"><img src = "http://www.iid.com/Home/ShowImage?id=299&t=635648001335730000" style = "width: 30px"></a></li>            
                     <li><a href = "#"><img src = "https://www.hrc.co.nz/index.php/download_file/view_inline/893/" style = "width: 30px"></a></li>
                     <li><a href = "#"><img src = "http://a4.mzstatic.com/us/r30/Purple69/v4/14/79/45/147945c1-8234-f71b-2018-9c22475473f2/icon320x320.jpeg" style = "width: 30px"></a></li>                  
-              <li ng-controller="user as user"><a href="#">
-                  <img ng-src="https://graph.facebook.com/{{user.fbUser.id}}/picture" />
-                  {{user.fbUser.name}}
-              </a></li>
+              <li ng-controller="user as user">
+                  <div ng-if="user.fbUser">
+                      <img src="https://graph.facebook.com/{{user.fbUser.id}}/picture" />
+                      {{user.fbUser.name}} 
+                      
+                      <button ng-click="user.logout()" class="btn">Logout</button>
+                  </div>
+                  <div ng-if="!user.fbUser">
+                      <button ng-click="user.login()" class="btn">Login with facebook</button>
+                  </div>
+             </li>
 
 
 
@@ -93,13 +100,22 @@
               when('/weight', {
                 templateUrl: 'views/weight-index.html',
                 controller: 'weight', controllerAs: 'vm'
-              }).              
+              }).    
               otherwise({
                 redirectTo: '/person'   //person
               })
         })
         .service('facebook',function($q, $http){
             return {
+                login: function(){
+                    var deferred = $q.defer();
+                    FB.login(function(response) {
+                        FB.api('/me', function(fbUser){
+                            deferred.resolve(fbUser);
+                        });
+                    }, {scope: 'public_profile,email'});
+                    return deferred.promise;
+                },
                 getUser: function(){
                     var deferred = $q.defer();   //an asyncronous object t
                     
@@ -111,16 +127,13 @@
                     });
                     FB.getLoginStatus(function(response) {
                         if(response.status === 'connected'){
+                            //response.authResponse.accessToken
                                 FB.api('/me', function(fbUser){
-                                  deferred.resolve(fbUser);     //means the object is ready 
-                                })
+                                    deferred.resolve(fbUser);
+                                });
+                                $http.post('/login', { access_token: response.authResponse.accessToken })  //this should create record
                         }else{
-                            FB.login(function(response) {
-                                FB.api('/me', function(fbUser){
-                                  deferred.resolve(fbUser);
-                                })
-                                
-                            }, {scope: 'public_profile,email'});
+                            
                         }
                     });
                     
@@ -128,15 +141,34 @@
                 }
             }
         })
-        .controller('user', function(facebook){
+        .controller('user', function(facebook, $http){
             var self = this;
             facebook.getUser().then(function(fbUser){
                 self.fbUser = fbUser;
-                self.fbUser.name = self.fbUser.name;
-                self.fbUser.about = self.fbUser.about;
             });
             self.status = "Not Checked Yet."
+            
+            self.login = function(){
+                facebook.login().then(function(fbUser){
+                    setTimeout(function(){
+                         self.fbUser = fbUser;
+                         window.location.reload();
+                    }, 5000);   
+                    
+                })
+            }
+            
+            self.logout = function() 
+            {
+              
+              FB.logout(function(response) {
+                $http.post("/logout");
+                window.location = "/#/";  //go away from the persons page among logout
+                self.fbUser = null;       //sets the user to null
+              });
+            }             
         });
+        
     </script>
     <script type="text/javascript" src="controllers/person.js"></script>
     <script type="text/javascript" src="controllers/food.js"></script>

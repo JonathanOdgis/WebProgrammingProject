@@ -1,6 +1,8 @@
 var express = require('express');
     var app = express();
     var bodyParser = require('body-parser');
+    var session = require('express-session');    
+    
     var person = require("./Model/Person");
     var food = require("./Model/Food");
     var exercise = require("./Model/Exercise");
@@ -20,10 +22,15 @@ var express = require('express');
     app.use(express.static(__dirname + '/public'));
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
-
+    app.use(session({ secret: 'OK' }));
 //==================================================================
 app.get("/person", function(req, res)  //res=response the returned information req=what the user typed in to the browser, ip address
 {
+  if (!req.session.user || req.session.user.typeid != 'Admin')  
+  {
+    res.status(302).send("Error. You do not have permission to access the page");
+    return;   //so the rest isnt run and u dont load the stuff
+  }
   person.get(null, function(err, rows)
   {
     if (err)
@@ -75,7 +82,7 @@ app.get("/person", function(req, res)  //res=response the returned information r
 //==================================================================
 app.get("/food", function(req, res)  //res=response the returned information req=what the user typed in to the browser, ip address
 {
-  food.get(null, function(err, rows)
+  food.get(null, req.session.user.persons_id, function(err, rows)  
   {
     if (err)
     {
@@ -90,7 +97,7 @@ app.get("/food", function(req, res)  //res=response the returned information req
 })
 .get("/food/:id", function(req, res)
 {
-  food.get(req.params.id, function(rows)
+  food.get(req.params.id, req.session.user.persons_id, function(rows)
   {
     res.send(rows[0]);
   })
@@ -101,7 +108,8 @@ app.get("/food", function(req, res)  //res=response the returned information req
     res.status(500).send(errors);
     return;
   }
-  food.save(req.body, function(err, row){
+  //req.body.userID = req.session.user.id;     //req.session.user.id is the fb user. See the get and the top variable
+  food.save(req.body, req.session.user.persons_id, function(err, row){    //get the current user of the session and their person id so we can display their info only
       if(err)
       {
         res.status(500).send(err);
@@ -126,7 +134,7 @@ app.get("/food", function(req, res)  //res=response the returned information req
 
 //==================================================================
 app.get("/exercise", function(req, res){
-  exercise.get(null, function(err, rows)
+  exercise.get(null, req.session.user.persons_id, function(err, rows)
   {
     if (err)
     {
@@ -140,7 +148,8 @@ app.get("/exercise", function(req, res){
   })
 })
 .get("/exercise/:id", function(req, res){
-  exercise.get(req.params.id, function(err, rows){
+  exercise.get(req.params.id, req.session.user.persons_id, function(err, rows)
+  {
     res.send(rows[0]);
   })
 })
@@ -155,12 +164,13 @@ app.get("/exercise", function(req, res){
       console.log(data)
     })
   
-  exercise.save(req.body, function(err, row){
-      if(err){
+  exercise.save(req.body, req.session.user.persons_id, function(err, row){
+      if(err)
+      {
         res.status(500).send(err);
         return;
       }
-    res.redirect("/exercise/" + row.id);
+    res.send(row);
   })
 })
 .delete("/exercise/:id", function(req, res){
@@ -182,7 +192,7 @@ app.get("/exercise", function(req, res){
 //===========================================================================================
 app.get("/bloodpressure", function(req, res)  //res=response the returned information req=what the user typed in to the browser, ip address
 {
-  bloodpressure.get(null, function(err, rows)
+  bloodpressure.get(null,  req.session.user.persons_id, function(err, rows)
   {
     if (err)
     {
@@ -197,7 +207,7 @@ app.get("/bloodpressure", function(req, res)  //res=response the returned inform
 })
 .get("/bloodpressure/:id", function(req, res)
 {
-  bloodpressure.get(req.params.id, function(rows)
+  bloodpressure.get(req.params.id, req.session.user.persons_id, function(rows)
   {
     res.send(rows[0]);
   })
@@ -208,7 +218,7 @@ app.get("/bloodpressure", function(req, res)  //res=response the returned inform
     res.status(500).send(errors);
     return;
   }
-  bloodpressure.save(req.body, function(err, row){
+  bloodpressure.save(req.body, req.session.user.persons_id, function(err, row){
       if(err)
       {
         res.status(500).send(err);
@@ -233,7 +243,7 @@ app.get("/bloodpressure", function(req, res)  //res=response the returned inform
 //========================================================================
 app.get("/sleep", function(req, res)  //res=response the returned information req=what the user typed in to the browser, ip address
 {
-  sleep.get(null, function(err, rows)
+  sleep.get(null,  req.session.user.persons_id, function(err, rows)
   {
     if (err)
     {
@@ -248,7 +258,7 @@ app.get("/sleep", function(req, res)  //res=response the returned information re
 })
 .get("/sleep/:id", function(req, res)
 {
-  sleep.get(req.params.id, function(rows)
+  sleep.get(req.params.id, req.session.user.persons_id, function(rows)
   {
     res.send(rows[0]);
   })
@@ -259,7 +269,7 @@ app.get("/sleep", function(req, res)  //res=response the returned information re
     res.status(500).send(errors);
     return;
   }
-  sleep.save(req.body, function(err, row){
+  sleep.save(req.body,  req.session.user.persons_id, function(err, row){
       if(err)
       {
         res.status(500).send(err);
@@ -284,7 +294,7 @@ app.get("/sleep", function(req, res)  //res=response the returned information re
 //===============================================
 app.get("/weight", function(req, res)  //res=response the returned information req=what the user typed in to the browser, ip address
 {
-  weight.get(null, function(err, rows)
+  weight.get(null, req.session.user.persons_id, function(err, rows)
   {
     if (err)
     {
@@ -299,7 +309,7 @@ app.get("/weight", function(req, res)  //res=response the returned information r
 })
 .get("/weight/:id", function(req, res)
 {
-  weight.get(req.params.id, function(rows)
+  weight.get(req.params.id, req.session.user.persons_id, function(rows)
   {
     res.send(rows[0]);
   })
@@ -310,7 +320,7 @@ app.get("/weight", function(req, res)  //res=response the returned information r
     res.status(500).send(errors);
     return;
   }
-  weight.save(req.body, function(err, row){
+  weight.save(req.body, req.session.user.persons_id, function(err, row){
       if(err)
       {
         res.status(500).send(err);
@@ -332,6 +342,40 @@ app.get("/weight", function(req, res)  //res=response the returned information r
       }
   })
 })
+.post("/login", function(req, res){
+    unirest.get("https://graph.facebook.com/me?access_token=" + req.body.access_token + "&fields=id,name,email")
+    .end(function (result) {
+        var fbUser = req.session.fbUser = JSON.parse(result.body);
+        fbUser.access_token = req.body.access_token;
+        person.get(fbUser.id, function(err, rows) {
+            if(rows && rows.length){                           //if there is no new user
+                req.session.user = rows[0];
+            }else{                                          //if there is a new user
+                person.save({ firstname: fbUser.name, lastname: fbUser.name, fbid: fbUser.id}, function(err, row) {
+                    req.session.user = row;
+                })
+            }
+            res.send(result.body);
+        }, 'facebook');  //thats the 3rd parameter that goes into the get model ("searchType") So this tells me express calls Model Methods
+        
+    });
+})
+.post("/logout", function(req, res)    //I need to break the cacher "Google: Angular Node Cache Issue"
+{
+    req.session = null;
+    window.location.reload(true)
+    res.send("Logged Out");
+}
+
+)
+
+.get("/fbUser", function(req, res){
+    res.send(req.session.fbUser);
+})
+.get("/user", function(req, res){
+    res.send(req.session.user);
+});
+
 app.listen(process.env.PORT);
 
 

@@ -2,11 +2,11 @@ var mysql = require("mysql");
 
 module.exports =  {
     blank: function(){ return {} },
-    get: function(id, ret){
+    get: function(id, persons_id, ret){
         var conn = GetConnection();
-        var sql = 'SELECT * FROM Sleep ';
+        var sql = 'SELECT * FROM Sleep WHERE persons_id=' + persons_id;
         if(id){
-          sql += " WHERE sleep_id = " + id;
+          sql += " AND sleep_id = " + id;
         }
         conn.query(sql, function(err,rows){
           ret(err,rows);

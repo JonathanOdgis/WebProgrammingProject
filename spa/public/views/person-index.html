@@ -8,8 +8,10 @@
             <thead>
                 <tr>
                     <th>Actions</th>
+                    <th>Picture</th>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th>Account Type</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,11 +24,14 @@
                               <a ng-click="vm.delete(row, $index)" title="Delete" class="btn btn-default btn-xs delete"><i class="glyphicon glyphicon-trash"></i></a>
                             </div>
                           </th>
+                        <td><img src="https://graph.facebook.com/{{row.fbid}}/picture" style="width:24px" /> </td>
                         <td>{{row.firstname}}</td>
-                        <td ng-if-end>{{row.lastname}}</td>
+                        <td>{{row.lastname}}</td>
+                        <td ng-if-end>{{row.typeid}}</td>
                         
                         <td ng-if-start="row.isEditing"><input type="text" name="firstname" class="form-control" placeholder="firstname" ng-model="row.firstname" /></td>
                         <td><input type="text" name="lastname" class="form-control" placeholder="lastname" ng-model="row.lastname" /></td>
+                        <td><input type="text" name="fbid" class="form-control" placeholder="fbid" ng-model="row.fbid" /></td>
                         <td ng-if-end>
                             <input type="button" value="Submit" class="btn btn-primary submit" ng-click="vm.save(row, $index)"/>
                         </td>
