@@ -69,6 +69,10 @@
         angular.module('app',['ngRoute', 'jonathan.directives'])   
         .config(function($routeProvider){
             $routeProvider.
+              when('/home', {
+                templateUrl: 'views/home-index.html',
+                controller: 'person', controllerAs: 'vm'
+              }).
               when('/person', {
                 templateUrl: 'views/person-index.html',
                 controller: 'person', controllerAs: 'vm'   //self = vm
@@ -102,7 +106,7 @@
                 controller: 'weight', controllerAs: 'vm'
               }).    
               otherwise({
-                redirectTo: '/person'   //person
+                redirectTo: '/home'   //person
               })
         })
         .service('facebook',function($q, $http){

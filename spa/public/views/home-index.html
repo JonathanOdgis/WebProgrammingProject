@@ -1,0 +1,55 @@
+        <div class= "container"> 
+            <div ng-controller="user as user">
+                  <div ng-if="user.fbUser">
+                     <h1> Welcome Back {{user.fbUser.name}}! </h1>
+                  </div>
+                  <div ng-if="!user.fbUser">
+                      <button ng-click="user.login()" class="btn">Login with facebook</button>
+                  </div>
+            </div>        
+        </div>         
+        <div class = "container">
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#myCarousel" data-slide-to="1"></li>
+                  <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+    
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                  <div class="item active">
+                    <img src="images/stockimage.jpg">
+                  </div>
+                  <div class="item">
+                    <img src="images/stockimage.jpg">
+                  </div>
+                  <div class="item">
+                    <img src="images/stockimage.jpg">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="jumbotron" id = "frontPageInfo">
+            <h2> It's Time to Get Back on Track. </h1> 
+            <h2> Keep track of your life anytime and anywhere. </h2>
+            <h2> Don't just follow your dreams. Chase them. </h2>
+          </div>
+        </div>        
+
+             </li>
+        <div class = "footer">
+          <div class = "Jumbotron">
+            <p> Copyright 2015.  </p>
+             <a href = "#"><img src = "http://www.iid.com/Home/ShowImage?id=299&t=635648001335730000" style = "width: 30px"></a>             
+             <a href = "#"><img src = "https://www.hrc.co.nz/index.php/download_file/view_inline/893/" style = "width: 30px"></a>
+             <a href = "#"><img src = "http://a4.mzstatic.com/us/r30/Purple69/v4/14/79/45/147945c1-8234-f71b-2018-9c22475473f2/icon320x320.jpeg" style = "width: 30px"></a>
+          </div>
+        </div>
