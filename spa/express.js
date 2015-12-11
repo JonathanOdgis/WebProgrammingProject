@@ -23,6 +23,9 @@ var express = require('express');
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     app.use(session({ secret: 'OK' }));
+
+
+
 //==================================================================
 app.get("/person", function(req, res)  //res=response the returned information req=what the user typed in to the browser, ip address
 {
@@ -343,7 +346,7 @@ app.get("/weight", function(req, res)  //res=response the returned information r
   })
 })
 .post("/login", function(req, res){
-    unirest.get("https://graph.facebook.com/me?access_token=" + req.body.access_token + "&fields=id,name,email")
+    unirest.get("https://graph.facebook.com/me?access_token=" + req.body.access_token + "&fields=id,name,email,location")  //makes the fb user definition
     .end(function (result) {
         var fbUser = req.session.fbUser = JSON.parse(result.body);
         fbUser.access_token = req.body.access_token;

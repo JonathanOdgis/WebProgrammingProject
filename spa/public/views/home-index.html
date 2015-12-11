@@ -3,9 +3,6 @@
                   <div ng-if="user.fbUser">
                      <h1> Welcome Back {{user.fbUser.name}}! </h1>
                   </div>
-                  <div ng-if="!user.fbUser">
-                      <button ng-click="user.login()" class="btn">Login with facebook</button>
-                  </div>
             </div>        
         </div>         
         <div class = "container">
@@ -41,6 +38,11 @@
             <h2> It's Time to Get Back on Track. </h1> 
             <h2> Keep track of your life anytime and anywhere. </h2>
             <h2> Don't just follow your dreams. Chase them. </h2>
+            <div ng-controller="user as user">      
+                  <div ng-if="!user.fbUser">
+                      <button ng-click="user.login()" class="btn">Login with facebook</button>
+                  </div>          
+            </div>
           </div>
         </div>        
 

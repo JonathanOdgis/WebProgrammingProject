@@ -20,31 +20,57 @@
             <nav class="navbar navbar-fixed navbar-default" id = "navbar">
               <div class="container-fluid">
                 <div id = "navbaritems">
-                  <ul class = "nav navbar-nav">
+                  <ul class = "nav navbar-nav" ng-controller="user as user">
                     <div class="navbar-header">
                         <a class="navbar-brand" href="index.html"> Fit List </a>
-                    </div>          
-                    <li><a href="#/person" id = "person-button">Person </a></li>
-                    <li><a href="#/food" id = "food-button">Food </a></li>
-                    <li><a href="#/exercise" id = "exercise-button"> Exercise </a></li>
-                    <li><a href="#/weight" id = "weight-button"> Weight </a></li>
-                    <li><a href="#/sleep" id = "sleep-button"> Sleep </a></li>
-                    <li><a href="#/bloodpressure" id = "blood-pressure-button"> Blood Pressure </a></li>
+                    </div>  
 
-                    <li><a href = "#"><img src = "http://www.iid.com/Home/ShowImage?id=299&t=635648001335730000" style = "width: 30px"></a></li>            
-                    <li><a href = "#"><img src = "https://www.hrc.co.nz/index.php/download_file/view_inline/893/" style = "width: 30px"></a></li>
-                    <li><a href = "#"><img src = "http://a4.mzstatic.com/us/r30/Purple69/v4/14/79/45/147945c1-8234-f71b-2018-9c22475473f2/icon320x320.jpeg" style = "width: 30px"></a></li>                  
-              <li ng-controller="user as user">
-                  <div ng-if="user.fbUser">
-                      <img src="https://graph.facebook.com/{{user.fbUser.id}}/picture" />
-                      {{user.fbUser.name}} 
-                      
-                      <button ng-click="user.logout()" class="btn">Logout</button>
-                  </div>
-                  <div ng-if="!user.fbUser">
-                      <button ng-click="user.login()" class="btn">Login with facebook</button>
-                  </div>
-             </li>
+                    <li ng-if="!user.fbUser" 
+                      class="disabled"><a href="#/" id = "person-button">Person </a>
+                    </li>
+                    <li ng-if="user.fbUser" 
+                      class= "enabled"><a href="#/person" id = "person-button">Person </a>
+                    </li>   
+                    <li ng-if="!user.fbUser" 
+                      class= "disabled"><a href="#/" id = "food-button">Food </a>
+                    </li>
+                    <li ng-if="user.fbUser" 
+                      class= "enabled"><a href="#/food" id = "food-button">Food </a>
+                    </li>   
+                    <li ng-if="!user.fbUser" 
+                      class= "disabled"><a href="#/" id = "exercise-button">Exercise </a>
+                    </li>
+                    <li ng-if="user.fbUser" 
+                      class= "enabled"><a href="#/exercise" id = "exercise-button">Exercise </a>
+                    </li>   
+                    <li ng-if="!user.fbUser" 
+                      class= "disabled"><a href="#/" id = "weight-button">Weight </a>
+                    </li>
+                    <li ng-if="user.fbUser" 
+                      class= "enabled"><a href="#/weight" id = "weight-button">Weight </a>
+                    </li>   
+                    <li ng-if="!user.fbUser" 
+                      class= "disabled"><a href="#/" id = "sleep-button">Sleep </a>
+                    </li>
+                    <li ng-if="user.fbUser" 
+                      class= "enabled"><a href="#/sleep" id = "sleep-button">Sleep </a>
+                    </li>            
+                    <li ng-if="!user.fbUser" 
+                      class= "disabled"><a href="#/" id = "blood-pressure-button">Blood Pressure</a>
+                    </li>
+                    <li ng-if="user.fbUser" 
+                      class= "enabled"><a href="#/bloodpressure" id = "blood-pressure-button">Blood Pressure </a>
+                    </li>                                
+                    <li ng-controller="user as user">
+                        <div ng-if="user.fbUser">
+                            <img src="https://graph.facebook.com/{{user.fbUser.id}}/picture" />
+                            {{user.fbUser.name}} 
+                            <button ng-click="user.logout()" class="btn">Logout</button>
+                        </div>
+                        <div ng-if="!user.fbUser">
+                            <button ng-click="user.login()" class="btn">Login with facebook</button>
+                        </div>
+                   </li>
 
 
 
@@ -53,7 +79,7 @@
             </nav>
            
         </div>    
-
+      
             <jo-alert></jo-alert>
             <jo-panel></jo-panel>
             <div ng-view ></div>
@@ -167,8 +193,9 @@
               
               FB.logout(function(response) {
                 $http.post("/logout");
-                window.location = "/#/";  //go away from the persons page among logout
-                self.fbUser = null;       //sets the user to null
+                  self.fbUser = null;       //sets the user to null
+                  window.location = "/#/";  //go away from the persons page among logout
+                  window.location.reload();                  
               });
             }             
         });
