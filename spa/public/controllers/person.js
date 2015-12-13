@@ -26,7 +26,7 @@
                 self.delete = function(row, index){
                     panel.show( {
                         title: "Delete a person",
-                        body: "Are you sure you want to delete " + row.firstName + "?",
+                        body: "Are you sure you want to delete " + row.firstname + "?",
                         confirm: function(){
                             $http.delete('/person/' + row.persons_id)
                             .success(function(data){
