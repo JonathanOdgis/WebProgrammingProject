@@ -1,5 +1,5 @@
         angular.module('app')
-        .controller('person', function($http, alert, panel){    //wait why can person not work but food works for the controller/model?hHhhhHhHh
+        .controller('person', function($http, alert, panel){   
             var self = this;
 
                 self.template = "views/person-index.html";
@@ -7,6 +7,7 @@
                 .success(function(data){
                     self.rows = data;
                 });
+                var isSearching = false;
                 
                 self.create = function(){
                     self.rows.push({ isEditing: true });

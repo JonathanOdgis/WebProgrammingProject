@@ -2,9 +2,11 @@ var mysql = require("mysql");
 
 module.exports =  {
     blank: function(){ return {} },
-    get: function(id, ret, searchType){
+    
+    get: function(id, ret, searchParam, searchType){
         var conn = GetConnection();
-        var sql = 'SELECT P.* FROM Persons P';
+        var sql = 'SELECT P.* FROM Persons P WHERE firstname Like "%” ' + searchParam + '“%"';
+        //var sql = 'SELECT P.* FROM Persons P';
         if(id){
           switch (searchType) {
             case 'facebook':
