@@ -7,7 +7,7 @@
                 .success(function(data){
                     self.rows = data;
                 });
-                var isSearching = false;
+                //var isSearching = false;
                 
                 self.create = function(){
                     self.rows.push({ isEditing: true });

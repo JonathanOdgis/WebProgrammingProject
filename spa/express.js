@@ -163,10 +163,6 @@ app.get("/exercise", function(req, res){
     return;
   }
   
-  twit.post('statuses/update', { status: 'App test'}, function(err, data, response) {
-      console.log(data)
-    })
-  
   exercise.save(req.body, req.session.user.persons_id, function(err, row){
       if(err)
       {
